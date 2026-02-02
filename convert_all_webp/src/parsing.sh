@@ -2,23 +2,24 @@
 
 usage() {
     cat <<EOF
-USAGE: $0 [OPTIONS]
 
-This script converts all images types to webp.
-It is essential if you want your images to 
-store as few as possible.
+    USAGE: $0 [OPTIONS]
 
-OPTIONS
-PARAMS:                  The param 
--i | --images <DIR>      Directory of images 
--md| --mdir   <DIR>      Directory of all md files  
--h | --help              Show this help message 
+    This script converts all images types to webp.
+    It is essential if you want your images to 
+    store as few as possible.
 
-EXAMPLES:
-  $0 -i ./assets -m ./notes
-  $0 -i ./photos -i ./icons -m ./docs   
-  $0 --mdir ./vault --images ./media
-  $0 --mdir ./vault ./vault2 --i ./media
+    OPTIONS
+    PARAMS:                  The param 
+    -i | --images <DIR>      Directory of images 
+    -m| --mdir   <DIR>      Directory of all md files  
+    -h | --help              Show this help message 
+
+    EXAMPLES:
+    $0 -i ./assets -m ./notes
+    $0 --images ./photos ./icons -m ./docs   
+    $0 --mdir ./vault -i ./media
+    $0 --mdir ./vault ./vault2 --images ./media
 
 EOF
 }
@@ -39,7 +40,7 @@ parsing() {
             done
             ;;
 
-        -md | --mdir)
+        -m | --mdir)
             shift
             while [[ "$1" != -* ]] && [[ -n "$1" ]]; do
                 check_dir "$1"
