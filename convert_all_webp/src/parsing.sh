@@ -12,7 +12,7 @@ usage() {
     OPTIONS
     PARAMS:                  The param 
     -i | --images <DIR>      Directory of images 
-    -m| --mdir   <DIR>      Directory of all md files  
+    -m | --mdir   <DIR>      Directory of all md files  
     -h | --help              Show this help message 
 
     EXAMPLES:
