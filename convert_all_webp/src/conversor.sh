@@ -16,5 +16,13 @@ image_conversor() {
 }
 
 md_modifier() {
-    echo "MD DIRECTORY (conversor): ${MD_DIR[*]}"
+
+    local PATTERN="\.(jpg|jpeg|png|tiff|tif|bmp|gif|heic|heif|webp|svg|ico|raw|arw|cr2|nef|dng)"
+
+    for dir in "${MD_DIR[@]}"; do
+        for file in "$dir"/*.md; do
+            sed -i -E "s/$PATTERN/.webp/gI" "$file" &>/dev/null
+        done
+    done
+
 }

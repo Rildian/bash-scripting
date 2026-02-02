@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ./src/conversor.sh
-source ./src/utils.sh
+source ./src/parsing.sh
 
 main() {
     parsing "$@"
