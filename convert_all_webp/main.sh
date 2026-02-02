@@ -1,12 +1,11 @@
 #!/bin/bash
 
-source ./utils.sh
+source ./src/conversor.sh
+source ./src/utils.sh
 
 main() {
     parsing "$@"
-
-    echo "Image Dirs: ${IMAGE_DIR[*]}"
-    echo "Md Dirs:    ${MD_DIR[*]}"
+    conversor
 }
 
 main "$@"

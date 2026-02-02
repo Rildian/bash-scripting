@@ -61,8 +61,8 @@ parsing() {
     done
 
     if [ ${#IMAGE_DIR[@]} -eq 0 ] || [ ${#MD_DIR[@]} -eq 0 ]; then
-        echo "Error: Both --images and --mdir are required."
         usage
+        echo "Error: you forgot mdir and/or images dir"
         exit 1
     fi
 }
