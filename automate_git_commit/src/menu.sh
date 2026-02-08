@@ -12,34 +12,6 @@ intro() {
 EOF
 }
 
-help() {
-
-    cat <<EOF
-    USAGE OF EACH OPTION: 
-
-    1 - Given a directory and its ID, you create a cronjob 
-    that schedueles to commit it with "up" as a message. 
-    Addtionally, you may provide when the backup must occur.
-    
-    NOTE: If you provide more than one repo at once, 
-    they will backup at the same time. 
-
-
-    2 - Return all cronjobs with repositores schedueled. 
-    
-    3 - Given an ID, you can delete that line that schedueled a cronjob.
-    If you do not know your ID, might as well press the option 2.
-
-    4 - Display the usage  message that details every option and its arguments. 
-    
-    5 - Display the general usage of the script. 
-
-   -1 - Closes the program.
-
-EOF
-
-}
-
 usage() {
 
     cat <<EOF
@@ -47,21 +19,17 @@ usage() {
     USAGE:
 
     Select one of the options provided by the menu: 
+
     1 - Create a cronjob to backup a repository.
-    e.g: 
-    --dir/-d dir1/ dir2/ -t/--tag <tag_dir1 tag_dir2 
+    Provide one or more repositories and tags 
+    to each repository.
+   
     
-    2 - Return all the jobs schedueled, it shows the 
-    directory chosen and its ID 
+    2 - Return all the repositories schedueled. 
 
-    3 - Delete the job schedueled. 
-    e.g 
-    -rm/--remove <tag(s)> 
-    -rm/--remove tag_dir1 tag_dir2
-
-    4 - Display the usage  message that details every option and its arguments. 
+    3 - Delete the repository schedueled by providing its tag.
     
-    5 - Display the general usage of the script. 
+    4 - Display the general usage of the script. 
 
    -1 - Closes the program.
 
@@ -91,10 +59,6 @@ menu() {
         usage
         ;;
 
-    5)
-        help
-        ;;
-
     -1)
         exit 0
         ;;
@@ -104,5 +68,49 @@ menu() {
         help
         ;;
     esac
+}
+
+cron_help() {
+    cat <<EOF
+    
+    USAGE: 
+        * * * * * 
+      # | | | | |
+      # | | | | day of the week (0–6) (Sunday to Saturday); 
+      # | | | month (1–12)             
+      # | | day of the month (1–31)
+      # | hour (0–23)
+      # minute (0–59)
+        
+
+      If you don't want to specify some argument,
+      hit -1 or *. It'll be "*" by default. But you must provide all the 5 arguments. 
+      Left to right (minute to day)
+    
+EOF
+}
+
+cron_scheduele() {
+    local dir="$1"
+    local tag="$2"
+    SIZE=5
+
+    cron_help
+    echo "Scheduele the repo $(dir) w/ the tag ${tag}"
+    echo "ARGS:         MIN  HOUR  DOM   MONTH DOW"
+    echo "BOUNDARIES: (0-59, 0-23, 1-31, 1-12, 1-7"
+    read -r -p "Provide the 5 args: " -a cron_arr
+
+    if [ "${#cron_arr[@]}" -ne "$SIZE" ]; then
+        echo "You must provide exactly 5 arguments"
+        exit 1
+    fi
+
+    for ((i = 0; i < "$SIZE"; i++)); do
+        cron_arr[i]=$(change_value "${cron_arr[i]}")
+    done
+
+    verify_input_boundaries "${cron_arr[@]}"
+    echo "everything passed to scheduele"
 
 }

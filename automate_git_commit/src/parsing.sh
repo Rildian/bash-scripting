@@ -3,8 +3,8 @@
 add_repositories() {
 
     DIR=()
-    read -e -p "Path(s) to repository: " -a raw_dir
-    read -p "Tag(s) to repository " -a TAG
+    read -e -r -p "Path(s) to repository: " -a raw_dir
+    read -r -p "Tag(s) to repository " -a TAG
 
     for path in "${raw_dir[@]}"; do
         expanded_path="${path/#\~/$HOME}"
@@ -19,22 +19,23 @@ add_repositories() {
         exit 1
     fi
 
+    clear
     CRONTAB=$(crontab -l 2>/dev/null || true)
 
-    for tag in "${TAGS[@]}"; do
-        if grep -q "# TAG:$tag$" <<<"$(CRONTAB)"; then
-            echo "The tag $(tag) already exists."
+    for tag in "${TAG[@]}"; do
+        if grep -q "# TAG:$tag$" <<<"$CRONTAB"; then
+            echo "The tag ${tag} already exists."
             exit 1
         fi
     done
 
     for sch in "${!DIR[@]}"; do
-        schedule_repo "${DIR[sch]}" "${TAG[sch]}"
+        cron_scheduele "${DIR[sch]}" "${TAG[sch]}"
     done
 
     # after that, ask the scheduele to each dir. And actually, must write the push.sh
     # MAKE A FOOR LOOP TO VERIFY IF A TAG EXISTS IN CRONTAB}
-
+}
 remove_directories() {
     # OPTION 3
     # RECEIVES TAGS
