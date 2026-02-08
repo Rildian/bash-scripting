@@ -111,6 +111,10 @@ cron_scheduele() {
     done
 
     verify_input_boundaries "${cron_arr[@]}"
-    echo "everything passed to scheduele"
+    local new_job="${cron_arr[*]} ${MAIN_ROOT}/src/git_commit.sh \"$dir\" # TAG: $tag"
 
+    (
+        crontab -l 2>/dev/null
+        echo "$new_job"
+    ) | crontab -
 }

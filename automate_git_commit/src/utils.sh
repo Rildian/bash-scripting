@@ -41,6 +41,4 @@ verify_input_boundaries() {
         fi
     done
 
-    echo "Scheduled Cron Expression: ${cron_arr[*]}"
-
 }

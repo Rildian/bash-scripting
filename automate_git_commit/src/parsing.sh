@@ -9,7 +9,8 @@ add_repositories() {
     for path in "${raw_dir[@]}"; do
         expanded_path="${path/#\~/$HOME}"
         check_dir "${expanded_path}"
-        DIR+=("$expanded_path")
+        full_path=$(realpath "$expanded_path")
+        DIR+=("$full_path")
     done
 
     if [ "${#DIR[@]}" -ne "${#TAG[@]}" ]; then
