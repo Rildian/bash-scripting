@@ -8,15 +8,15 @@ menu() {
     case $input in
 
     1)
-        add_repositories
+        add_repository
         ;;
 
     2)
-        consult_tags
+        consult_tag
         ;;
 
     3)
-        remove_repositories
+        remove_repository
         ;;
 
     4)

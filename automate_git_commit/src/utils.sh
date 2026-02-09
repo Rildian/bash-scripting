@@ -20,8 +20,8 @@ change_value() {
 verify_input_boundaries() {
     local cron_arr=("$@")
 
-    local min_limits=(0 0 1 1 1)
-    local max_limits=(59 23 31 12 7)
+    local min_limits=(0 0 1 1 0)
+    local max_limits=(59 23 31 12 6)
 
     for ((i = 0; i < SIZE; i++)); do
         val="${cron_arr[$i]}"
@@ -30,7 +30,7 @@ verify_input_boundaries() {
 
         if [ "$val" == "*" ]; then continue; fi
 
-        if ! [[ $val =~ ^-?[0-9]+(\.[0-9]+)?$ ]]; then
+        if ! [[ $val =~ ^[0-9]+$ ]]; then
             echo "The value '$val' is an invalid number."
             exit 1
         fi

@@ -1,25 +1,30 @@
-# Automating git push 
+# Automating commits to Github 
 
-Work in progress 
+I've made this (whole) project to weekly update some of my repositories.
 
+# Dependencies & Setup 
 
+## Commands
+- Git 
+- Cron (Daemon)
+- Realpath 
+- Grep
 
+## Setting up SSH for Automated Backups
 
-# 🔐 Setting up SSH for Automated Backups
+Since this script runs via **Cron**, it cannot interactively ask for your GitHub username or password. You must configure an **SSH Key** to allow the script to push changes automatically. Here step by step how to do this:
 
-Since this script runs via **Cron** (background process), it cannot interactively ask for your GitHub username or password. You must configure an **SSH Key** to allow the script to push changes automatically.
-
-## 1. Generate a Dedicated "Bot" Key
+### 1. Generate a Dedicated "Bot" Key
 
 Open your terminal and run the following command to generate a new SSH key specifically for this script.
 
-**Important:** When asked for a passphrase, press `Enter` twice to leave it **empty**. Cron cannot type passwords!
+**Important:** When asked for a passphrase, press `Enter` twice to leave it **empty**. Cron cannot type passwords.
 
 ```bash
 ssh-keygen -t ed25519 -C "cron-bot" -f ~/.ssh/id_github_bot
 ```
 
-## 2. Configure SSH to Use the Key
+### 2. Configure SSH to Use the Key
 
 You need to tell your system to use this specific key when connecting to GitHub.
 
@@ -29,7 +34,7 @@ You need to tell your system to use this specific key when connecting to GitHub.
 nano ~/.ssh/config
 ```
 
-2. Paste the following configuration at the bottom of the file:
+2. Paste the following configuration at the bottom of the file and change the "User" to your own:
 
 ```
 Host github.com
@@ -45,7 +50,7 @@ Host github.com
 chmod 600 ~/.ssh/config
 ```
 
-## 3. Add the Key to GitHub
+### 3. Add the Key to GitHub
 
 1. Copy the public key to your clipboard:
 
@@ -58,7 +63,7 @@ cat ~/.ssh/id_github_bot.pub
 4. Give it a title (e.g., "Cron Bot") and paste the key.
 5. Click **Add SSH key**.
 
-## 4. Test the Connection
+### 4. Test the Connection
 
 Run this command in your terminal to verify everything is working. You should see a success message welcoming you by name.
 
@@ -67,7 +72,7 @@ ssh -T git@github.com
 # Expected Output: "Hi username! You've successfully authenticated..."
 ```
 
-## 5. Switch Your Repository to SSH
+### 5. Switch Your Repository to SSH
 
 For the backup to work, your local repository MUST use the SSH URL, not HTTPS.
 
@@ -89,4 +94,5 @@ git remote -v
 # Replace 'user' and 'repo' with your actual details
 git remote set-url origin git@github.com:user/repo.git
 ```
+
 
