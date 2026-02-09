@@ -1,5 +1,34 @@
 #!/bin/bash
 
+cron_scheduele() {
+    local dir="$1"
+    local tag="$2"
+    SIZE=5
+
+    cron_help
+    echo "Scheduele the repo $(dir) w/ the tag ${tag}"
+    echo "ARGS:         MIN  HOUR  DOM   MONTH DOW"
+    echo "BOUNDARIES: (0-59, 0-23, 1-31, 1-12, 1-7"
+    read -r -p "Provide the 5 args: " -a cron_arr
+
+    if [ "${#cron_arr[@]}" -ne "$SIZE" ]; then
+        echo "You must provide exactly 5 arguments"
+        exit 1
+    fi
+
+    for ((i = 0; i < "$SIZE"; i++)); do
+        cron_arr[i]=$(change_value "${cron_arr[i]}")
+    done
+
+    verify_input_boundaries "${cron_arr[@]}"
+    local new_job="${cron_arr[*]} ${MAIN_ROOT}/src/git_commit.sh \"$dir\" # TAG: $tag"
+
+    (
+        crontab -l 2>/dev/null
+        echo "$new_job"
+    ) | crontab -
+}
+
 add_repositories() {
 
     DIR=()
@@ -24,7 +53,8 @@ add_repositories() {
     CRONTAB=$(crontab -l 2>/dev/null || true)
 
     for tag in "${TAG[@]}"; do
-        if grep -q "# TAG:$tag$" <<<"$CRONTAB"; then
+        pattern="# TAG: $tag$"
+        if echo "$CRONTAB" | grep -q "$pattern"; then
             echo "The tag ${tag} already exists."
             exit 1
         fi
@@ -34,9 +64,8 @@ add_repositories() {
         cron_scheduele "${DIR[sch]}" "${TAG[sch]}"
     done
 
-    # after that, ask the scheduele to each dir. And actually, must write the push.sh
-    # MAKE A FOOR LOOP TO VERIFY IF A TAG EXISTS IN CRONTAB}
 }
+
 remove_directories() {
     # OPTION 3
     # RECEIVES TAGS
