@@ -1,6 +1,7 @@
 # Automating commits to Github 
 
 I've made this (whole) project to weekly update some of my repositories.
+Essentially, it'll commit one or more repositories with the message ```"up $(date)"```. Simple as that.
 
 # Dependencies & Setup 
 
