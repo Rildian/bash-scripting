@@ -10,7 +10,9 @@ image_conversor() {
 
     for dir in "${IMAGE_DIR[@]}"; do
         for file in "$dir"/*; do
-            cwebp -q 80 -m 6 "$file" -o "${file%.*}.webp" &>/dev/null && rm "$file"
+            if [[ "$file" != *.webp ]]; then
+                cwebp -q 80 -m 6 "$file" -o "${file%.*}.webp" &>/dev/null && rm "$file"
+            fi
         done
     done
 }
