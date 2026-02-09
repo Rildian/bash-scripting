@@ -8,7 +8,7 @@ cron_scheduele() {
     cron_help
     echo "Scheduele the repo $(dir) w/ the tag ${tag}"
     echo "ARGS:         MIN  HOUR  DOM   MONTH DOW"
-    echo "BOUNDARIES: (0-59, 0-23, 1-31, 1-12, 1-7"
+    echo "BOUNDARIES: (0-59, 0-23, 1-31, 1-12, 0-6"
     read -r -p "Provide the 5 args: " -a cron_arr
 
     if [ "${#cron_arr[@]}" -ne "$SIZE" ]; then
