@@ -1,0 +1,29 @@
+#!/bin/bash
+
+menu() {
+    usage
+
+    read -r input
+
+    case $input in
+    1)
+        create_project
+        exit 0
+        ;;
+    2)
+        echo "You're adding a lib!"
+        exit 0
+        ;;
+
+    -1)
+        exit 0
+        ;;
+
+    *)
+        echo "Unknow
+        command."
+        usage
+        exit 0
+        ;;
+    esac
+}
