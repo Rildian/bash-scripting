@@ -25,6 +25,8 @@ create_project() {
         -DinteractiveMode=false
 
     cd "$project_name" || exit 1
+
+    sed -i "s|<maven.compiler.release>.*</maven.compiler.release>|<maven.compiler.release>${java_version}</maven.compiler.release>|" pom.xml
     sed -i "s|<maven.compiler.source>.*</maven.compiler.source>|<maven.compiler.source>${java_version}</maven.compiler.source>|" pom.xml
     sed -i "s|<maven.compiler.target>.*</maven.compiler.target>|<maven.compiler.target>${java_version}</maven.compiler.target>|" pom.xml
 

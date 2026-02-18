@@ -24,6 +24,8 @@ usage() {
 
     3:  Display the usage 
     
+    4: Remove the project 
+
     -1: Ends the program:
 
 EOF
