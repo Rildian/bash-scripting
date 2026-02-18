@@ -11,7 +11,7 @@ menu() {
         exit 0
         ;;
     2)
-        echo "You're adding a lib!"
+        add_dependency
         exit 0
         ;;
 

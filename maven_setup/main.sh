@@ -6,7 +6,8 @@ export MAIN_ROOT
 . "$MAIN_ROOT/src/usage.sh"
 . "$MAIN_ROOT/src/menu.sh"
 . "$MAIN_ROOT/src/create_project.sh"
-. "$MAIN_ROOT/src/add_lib.sh"
+. "$MAIN_ROOT/src/add_dependency.sh"
+. "$MAIN_ROOT/src/build_project.sh"
 . "$MAIN_ROOT/src/utils.sh"
 
 main() {

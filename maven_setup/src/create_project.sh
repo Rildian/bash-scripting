@@ -3,7 +3,7 @@
 create_project() {
 
     read -e -r -p "Directory: " dir
-    dir="${dir/#\~/$HOME}"
+    dir=$(path_conversor "$dir")
     check_dir "$dir"
 
     read -r -p "Organization/Package Name: " org_name

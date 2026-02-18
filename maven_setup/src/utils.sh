@@ -14,10 +14,18 @@ check_string() {
     fi
 }
 
+path_conversor() {
+    dir_received="$1"
+    dir_received="${dir_received/#\~/$HOME}"
+    check_dir "$dir_received"
+
+    echo "$dir_received"
+}
+
 delete_project() {
     read -e -r -p "Type the project to remove: " project_to_remove
 
-    project_to_remove="${project_to_remove/#\~/$HOME}"
+    project_to_remove=$(path_conversor "$project_to_remove")
 
     if [[ "$project_to_remove" == "$HOME" ]] || [[ "$project_to_remove" == "/" ]]; then
         echo "CRITICAL ERROR: You are trying to delete your Home or Root directory!"
@@ -37,4 +45,13 @@ delete_project() {
         exit 1
     fi
 
+}
+
+does_pom_exist() {
+    POM="pom.xml"
+
+    if [ ! -e "$POM" ]; then
+        echo "pom.xml does not exists on this directory."
+        exit 1
+    fi
 }
