@@ -1,15 +1,26 @@
 #!/bin/bash
 
-#eg. com.rildian.classes.MovieTest test
-
 CLASS="$1"
-SCOPE="$2"
 
-if [ -z "$CLASS" ] || [ -z "$SCOPE" ]; then
-    echo "Usage: $0 com.<packagename>.ClassName <Scope>"
+if [ -z "$CLASS" ]; then
+    echo "Usage: $0 com.<packagename>.ClassName [Scope]"
     echo "e.g: $0 com.rildian.classes.MovieTest test"
+    echo "Note: Scope is optional. Defaults to 'compile' (or 'test' if class ends in 'Test')."
     exit 1
+fi
 
+if [ -n "$2" ]; then
+    SCOPE="$2"
+elif [[ "$CLASS" == *Test ]]; then
+    SCOPE="test"
+else
+    SCOPE="compile"
+fi
+
+if [ "$SCOPE" == "test" ]; then
+    mvn -q test-compile
+else
+    mvn -q compile
 fi
 
 mvn -q exec:java -Dexec.mainClass="$CLASS" -Dexec.classpathScope="$SCOPE"
